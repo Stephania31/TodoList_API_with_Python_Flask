@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import  Flask, jsonify, request, json
 
 
 app = Flask(__name__)
@@ -6,23 +6,18 @@ app = Flask(__name__)
 todos = [{ "label": "My first task", "done": False }, { "label": "My first task", "done": False }]
 
 
-@app.route('/blabla', methods=['GET'])
-def hello_world():
-    message = 'Hello, World!'
-    return jsonify(message=message)
-
 @app.route('/todos', methods=['GET'])
 def todo_get():
-    message = 'Hello!'
-    return jsonify(message=message)
+    json_text = jsonify(todos)
+    return json_text
 
 
 @app.route('/todos', methods=['POST'])
 def add_new_todo():
     request_body = request.json
-    print("Incoming request with the following body", request_body)
     todos.append(request_body)
     json_text = jsonify(todos)
+    print("Incoming request with the following body", request_body)
     return json_text
 
 @app.route('/todos/<int:position>', methods=['DELETE'])
